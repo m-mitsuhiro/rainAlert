@@ -1,0 +1,46 @@
+name: Rain Alert
+
+on:
+  schedule:
+    # 毎30分実行 (6:00〜22:00 JST = 21:00〜13:00 UTC)
+    - cron: '*/30 21-23,0-13 * * *'
+  workflow_dispatch:  # 手動実行ボタン（テスト用）
+
+jobs:
+  check-rain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # クールダウン用の state.json を前回のキャッシュから復元
+      - name: Restore state
+        uses: actions/cache/restore@v4
+        with:
+          path: state.json
+          key: rain-alert-state-${{ github.run_id }}
+          restore-keys: rain-alert-state-
+
+      - name: Run rain alert
+        env:
+          RAIN_EMAIL_SENDER:   ${{ secrets.RAIN_EMAIL_SENDER }}
+          RAIN_EMAIL_PASSWORD: ${{ secrets.RAIN_EMAIL_PASSWORD }}
+          RAIN_EMAIL_RECIPIENT: ${{ secrets.RAIN_EMAIL_RECIPIENT }}
+        run: python main.py
+
+      # 通知済みの状態を次回のために保存
+      - name: Save state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: state.json
+          key: rain-alert-state-${{ github.run_id }}

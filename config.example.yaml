@@ -1,0 +1,16 @@
+location:
+  name: "東京"
+  latitude: 35.6895
+  longitude: 139.6917
+
+alert:
+  rain_probability_threshold: 50   # 降水確率(%)がこれ以上なら通知
+  check_hours_ahead: 3             # 今後何時間先まで確認するか
+  cooldown_hours: 6                # 通知の最小間隔(時間) — スパム防止
+
+email:
+  smtp_host: "smtp.gmail.com"
+  smtp_port: 587
+  sender: "your@gmail.com"
+  password: "your_app_password"    # Gmailのアプリパスワード (16文字)
+  recipient: "your@gmail.com"
