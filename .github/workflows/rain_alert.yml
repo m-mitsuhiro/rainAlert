@@ -2,9 +2,8 @@ name: Rain Alert
 
 on:
   schedule:
-    # 毎30分実行 (6:00〜22:00 JST = 21:00〜13:00 UTC)
     - cron: '*/30 21-23,0-13 * * *'
-  workflow_dispatch:  # 手動実行ボタン（テスト用）
+  workflow_dispatch:
 
 jobs:
   check-rain:
@@ -22,7 +21,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # クールダウン用の state.json を前回のキャッシュから復元
       - name: Restore state
         uses: actions/cache/restore@v4
         with:
@@ -32,12 +30,11 @@ jobs:
 
       - name: Run rain alert
         env:
-          RAIN_EMAIL_SENDER:   ${{ secrets.RAIN_EMAIL_SENDER }}
+          RAIN_EMAIL_SENDER: ${{ secrets.RAIN_EMAIL_SENDER }}
           RAIN_EMAIL_PASSWORD: ${{ secrets.RAIN_EMAIL_PASSWORD }}
           RAIN_EMAIL_RECIPIENT: ${{ secrets.RAIN_EMAIL_RECIPIENT }}
         run: python main.py
 
-      # 通知済みの状態を次回のために保存
       - name: Save state
         if: always()
         uses: actions/cache/save@v4
