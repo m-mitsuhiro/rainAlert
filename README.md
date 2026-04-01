@@ -13,12 +13,22 @@ git init
 git add .
 git commit -m "initial commit"
 git remote add origin https://github.com/あなたのユーザー名/rainAlert.git
-git push -u origin main
+git push -u origin master
 ```
 
-### 2. GitHub Secrets にメール設定を登録
+### 2. GitHub Secrets に設定を登録
 
-リポジトリの **Settings → Secrets and variables → Actions → New repository secret** で以下の3つを登録:
+リポジトリの **Settings → Secrets and variables → Actions → New repository secret** で以下を登録:
+
+**場所:**
+
+| Secret 名 | 値の例 |
+|---|---|
+| `RAIN_LOCATION_NAME` | 小田原 |
+| `RAIN_LOCATION_LAT` | 35.28995736054646 |
+| `RAIN_LOCATION_LON` | 139.1514084488363 |
+
+**メール:**
 
 | Secret 名 | 値 |
 |---|---|
@@ -36,11 +46,16 @@ GitHub リポジトリの **Actions タブ → Rain Alert → Run workflow** か
 
 ---
 
-## ローカルでのテスト（WSL 等）
+## ローカルでのテスト
 
-`config.yaml` のコメントを外してメール設定を入力:
+`config.yaml` のコメントを外して場所・メール設定を入力:
 
 ```yaml
+location:
+  name: "小田原"
+  latitude: 35.28995736054646
+  longitude: 139.1514084488363
+
 email:
   smtp_host: "smtp.gmail.com"
   smtp_port: 587
@@ -68,7 +83,7 @@ python3 main.py --force
 | `main.py` | エントリーポイント。フロー制御・クールダウン管理 |
 | `weather.py` | Open-Meteo API から降水確率を取得 |
 | `notifier.py` | SMTP でメール送信 |
-| `config.yaml` | 場所・アラート閾値（コミット可能。メール情報は含まない） |
+| `config.yaml` | アラート閾値のみ（場所・メール情報は Secrets で管理） |
 | `state.json` | 前回通知時刻（自動生成・gitignore済み） |
 | `.github/workflows/rain_alert.yml` | GitHub Actions スケジュール設定 |
 
