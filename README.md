@@ -24,9 +24,9 @@ git push -u origin master
 
 | Secret 名 | 値の例 |
 |---|---|
-| `RAIN_LOCATION_NAME` | 小田原 |
-| `RAIN_LOCATION_LAT` | 35.28995736054646 |
-| `RAIN_LOCATION_LON` | 139.1514084488363 |
+| `RAIN_LOCATION_NAME` | 東京 |
+| `RAIN_LOCATION_LAT` | 35.6895 |
+| `RAIN_LOCATION_LON` | 139.6917 |
 
 **メール:**
 
@@ -52,9 +52,9 @@ GitHub リポジトリの **Actions タブ → Rain Alert → Run workflow** か
 
 ```yaml
 location:
-  name: "小田原"
-  latitude: 35.28995736054646
-  longitude: 139.1514084488363
+  name: "東京"
+  latitude: 35.6895
+  longitude: 139.6917
 
 email:
   smtp_host: "smtp.gmail.com"
