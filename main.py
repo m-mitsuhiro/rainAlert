@@ -54,7 +54,6 @@ def main() -> None:
     args = parser.parse_args()
 
     config = load_config()
-    loc = config["location"]
     alert = config["alert"]
 
     threshold = alert["rain_probability_threshold"]
@@ -63,6 +62,16 @@ def main() -> None:
 
     # 環境変数が設定されていればそちらを優先（GitHub Actions Secrets 対応）
     import os
+    loc_cfg = config.get("location", {})
+    loc = {
+        "name":      os.environ.get("RAIN_LOCATION_NAME",      loc_cfg.get("name", "")),
+        "latitude":  float(os.environ.get("RAIN_LOCATION_LAT", loc_cfg.get("latitude", 0))),
+        "longitude": float(os.environ.get("RAIN_LOCATION_LON", loc_cfg.get("longitude", 0))),
+    }
+    if not loc["name"]:
+        print("ERROR: 場所の設定が不足しています。config.yaml または環境変数を確認してください。", file=sys.stderr)
+        sys.exit(1)
+
     email_cfg = config.get("email", {})
     email = {
         "smtp_host": os.environ.get("RAIN_SMTP_HOST", email_cfg.get("smtp_host", "smtp.gmail.com")),

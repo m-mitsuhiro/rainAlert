@@ -30,6 +30,9 @@ jobs:
 
       - name: Run rain alert
         env:
+          RAIN_LOCATION_NAME: ${{ secrets.RAIN_LOCATION_NAME }}
+          RAIN_LOCATION_LAT: ${{ secrets.RAIN_LOCATION_LAT }}
+          RAIN_LOCATION_LON: ${{ secrets.RAIN_LOCATION_LON }}
           RAIN_EMAIL_SENDER: ${{ secrets.RAIN_EMAIL_SENDER }}
           RAIN_EMAIL_PASSWORD: ${{ secrets.RAIN_EMAIL_PASSWORD }}
           RAIN_EMAIL_RECIPIENT: ${{ secrets.RAIN_EMAIL_RECIPIENT }}
