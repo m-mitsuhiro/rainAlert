@@ -3,16 +3,3 @@ alert:
   check_hours_ahead: 1
   cooldown_hours: 6
 
-# 場所・メール設定は GitHub Secrets の環境変数から読み込みます
-# ローカルで実行する場合は以下のコメントを外して入力してください
-# location:
-#   name: "小田原"
-#   latitude: 35.28995736054646
-#   longitude: 139.1514084488363
-#
-# email:
-#   smtp_host: "smtp.gmail.com"
-#   smtp_port: 587
-#   sender: "your@gmail.com"
-#   password: "your_app_password"
-#   recipient: "your@gmail.com"
